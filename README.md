@@ -2,7 +2,7 @@
 
 Building connectors for Apache Kafka is hard. Chances are that you just read the previous sentence, and you subconsciously nooded with your head. The reason this happens is that Kafka Connect, which is the runtime platform behind the executing connectors, is way over-engineered. There is a clear lack of a proper documentation that teaches how the development framework works, how it connects with the runtime, and which best practices you must follow.
 
-For situations like this, your best bet is to get hold of an existing code and try to do the same, hoping your own connector will be written the best way possible. By all means, this is an excellent strategy. But most of the time, it is hard to understand the code as the connector you took as an example might have more code solving the technical problem that connector is aiming to solve than actually — explicitly show you how to develop your own connector.
+For situations like this, your best bet is to get hold of an existing code and try to do the same, hoping your own connector will be written the best way possible. By all means, this is an excellent strategy. But most of the time, it is hard to understand the code, as the connector you took as an example might have more code focused on solving the technical problem that the connector is aiming to solve than only the code part related to building custom connectors.
 
 This is the reason this project exists. This is a minimalistic repository that contains a source connector, whose focus is to show how the development framework from Kafka Connect works. From this repository, you can easily derive your own connector and write only the code that matter for your technical use case.
 
@@ -25,7 +25,7 @@ After installing these dependencies, execute the following command:
 mvn clean package
 ```
 
-A file named `target/my-first-kafka-connector-1.0.jar` will be created. This is your connector for Kafka Connect.
+A file named `target/my-first-kafka-connector-1.0.jar` will be created. This is your connector for Kafka Connect. 💡
 
 ## 2️⃣ Starting the local environment
 
