@@ -38,34 +38,12 @@ services:
       interval: 5s
       retries: 10
 
-  schema-registry:
-    image: confluentinc/cp-schema-registry:7.2.1
-    hostname: schema-registry
-    container_name: schema-registry
-    depends_on:
-      zookeeper:
-        condition: service_healthy
-      kafka:
-        condition: service_healthy
-    ports:
-      - "8081:8081"
-    environment:
-      SCHEMA_REGISTRY_HOST_NAME: schema-registry
-      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka:29092'
-      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
-    healthcheck:
-      interval: 5s
-      retries: 10
-      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8081
-
   connect:
     image: confluentinc/cp-kafka-connect-base:7.2.1
     hostname: connect
     container_name: connect
     depends_on:
       kafka:
-        condition: service_healthy
-      schema-registry:
         condition: service_healthy
     ports:
       - 8083:8083
@@ -80,12 +58,10 @@ services:
       CONNECT_CONFIG_STORAGE_TOPIC: connect-configs
       CONNECT_OFFSET_STORAGE_TOPIC: connect-offsets
       CONNECT_STATUS_STORAGE_TOPIC: connect-status
-      CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE: "false"
-      CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
       CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
       CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
       CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.converters.ByteArrayConverter"
-      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.converters.ByteArrayConverter"
+      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
       CONNECT_LOG4J_ROOT_LOGLEVEL: "INFO"
       CONNECT_LOG4J_LOGGERS: "org.apache.kafka.connect.runtime.rest=WARN,org.reflections=ERROR"
       CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: "1"

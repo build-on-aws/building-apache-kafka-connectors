@@ -24,7 +24,7 @@ public class MyFirstKafkaConnectorConfig extends AbstractConfig {
     private static final String FIRST_NONREQUIRED_PARAM_DEFAULT = "foo";
 
     public static final String SECOND_NONREQUIRED_PARAM_CONFIG = "second.nonrequired.param";
-    private static final String SECOND_NONREQUIRED_PARAM_DOC = "This is the 2ns non-required parameter";
+    private static final String SECOND_NONREQUIRED_PARAM_DOC = "This is the 2nd non-required parameter";
     private static final String SECOND_NONREQUIRED_PARAM_DEFAULT = "bar";
 
     public static final String MONITOR_THREAD_TIMEOUT_CONFIG = "monitor.thread.timeout";
