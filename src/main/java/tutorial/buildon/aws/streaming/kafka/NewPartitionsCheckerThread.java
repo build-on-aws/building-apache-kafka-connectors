@@ -21,10 +21,8 @@ public class NewPartitionsCheckerThread extends Thread {
     private int monitorThreadTimeout;
 
     public NewPartitionsCheckerThread(ConnectorContext context,
-        String firstParam, String secondParam, int monitorThreadTimeout) {
+        int monitorThreadTimeout) {
         this.context = context;
-        // 'firstParam' and 'secondParam' should be used
-        // here somehow to start any internal resource
         this.monitorThreadTimeout = monitorThreadTimeout;
     }
 
@@ -37,15 +35,10 @@ public class NewPartitionsCheckerThread extends Thread {
                 // criteria to be done in the source system using the parameters provided.
                 if (random.nextInt(monitorThreadTimeout) > (monitorThreadTimeout / 2)) {
                     log.info("Changes detected in the source. Requesting reconfiguration...");
-                    // Here something should be done to update
-                    // the list of available sources that the
-                    // method 'getCurrentSources()' will return.
                     if (context != null) {
                         context.requestTaskReconfiguration();
                     }
                 }
-                // The hard-coded timeout below of ten seconds should
-                // be one of the parameters provided in the connector.
                 boolean shuttingDown = shutdownLatch.await(monitorThreadTimeout, TimeUnit.MILLISECONDS);
                 if (shuttingDown) {
                     return;

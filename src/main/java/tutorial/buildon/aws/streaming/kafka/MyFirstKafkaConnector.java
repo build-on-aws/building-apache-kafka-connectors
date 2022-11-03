@@ -46,23 +46,32 @@ public class MyFirstKafkaConnector extends SourceConnector {
     public Config validate(Map<String, String> connectorConfigs) {
         Config config = super.validate(connectorConfigs);
         List<ConfigValue> configValues = config.configValues();
-        boolean missingTopicDefinition = true;
+        String firstNonRequiredParamValue = null;
+        String secondNonRequiredParamValue = null;
+        boolean specialCircumstanceDetected = false;
         for (ConfigValue configValue : configValues) {
-            if (configValue.name().equals(FIRST_REQUIRED_PARAM_CONFIG)
-            || configValue.name().equals(SECOND_REQUIRED_PARAM_CONFIG)) {
-                if (configValue.value() != null) {
-                    missingTopicDefinition = false;
-                    break;
+            if (configValue.value() != null) {
+                if (configValue.name().equals(FIRST_NONREQUIRED_PARAM_CONFIG)) {
+                    firstNonRequiredParamValue = (String) configValue.value();
+                }
+                if (configValue.name().equals(SECOND_NONREQUIRED_PARAM_CONFIG)) {
+                    secondNonRequiredParamValue = (String) configValue.value();
                 }
             }
+            if (firstNonRequiredParamValue != null &&
+                secondNonRequiredParamValue != null &&
+                firstNonRequiredParamValue.equals(secondNonRequiredParamValue)) {
+                specialCircumstanceDetected = true;
+                break;
+            }
         }
-        if (missingTopicDefinition) {
+        if (specialCircumstanceDetected) {
             throw new ConnectException(String.format(
                 "A special circumstance has been found in the "
-                + "connector configuration. Either the property "
-                + "'%s' or '%s' must be set in the configuration.",
-                FIRST_REQUIRED_PARAM_CONFIG,
-                SECOND_REQUIRED_PARAM_CONFIG));
+                + "connector configuration. The value of the "
+                + "properties '%s' or '%s' cannot be the same.",
+                FIRST_NONREQUIRED_PARAM_CONFIG,
+                SECOND_NONREQUIRED_PARAM_CONFIG));
         }
         return config;
     }
@@ -71,11 +80,8 @@ public class MyFirstKafkaConnector extends SourceConnector {
     public void start(Map<String, String> originalProps) {
         this.originalProps = originalProps;
         config = new MyFirstKafkaConnectorConfig(originalProps);
-        String firstParam = config.getString(FIRST_NONREQUIRED_PARAM_CONFIG);
-        String secondParam = config.getString(SECOND_NONREQUIRED_PARAM_CONFIG);
         int monitorThreadTimeout = config.getInt(MONITOR_THREAD_TIMEOUT_CONFIG);
-        checker = new NewPartitionsCheckerThread(
-            context, firstParam, secondParam, monitorThreadTimeout);
+        checker = new NewPartitionsCheckerThread(context, monitorThreadTimeout);
         checker.start();
     }
 

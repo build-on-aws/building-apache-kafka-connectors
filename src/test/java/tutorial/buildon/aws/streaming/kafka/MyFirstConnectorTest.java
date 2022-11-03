@@ -25,9 +25,11 @@ public class MyFirstConnectorTest {
     }
 
     @Test
-    public void checkMissingRequiredParams() {
+    public void checkSpecialCircumstance() {
         assertThrows(ConnectException.class, () -> {
             Map<String, String> props = new HashMap<>();
+            props.put("first.nonrequired.param", "sameValue");
+            props.put("second.nonrequired.param", "sameValue");
             new MyFirstKafkaConnector().validate(props);
         });
     }

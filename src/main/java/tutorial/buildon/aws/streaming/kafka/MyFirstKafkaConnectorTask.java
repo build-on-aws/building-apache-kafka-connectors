@@ -21,6 +21,7 @@ public class MyFirstKafkaConnectorTask extends SourceTask {
 
     private static final String STRING_COLUMN = "string-column";
     private static final String NUMERIC_COLUMN = "numeric-column";
+    private static final String BOOLEAN_COLUMN = "boolean-column";
 
     private final Random random = new Random(System.currentTimeMillis());
     private final Logger log = LoggerFactory.getLogger(MyFirstKafkaConnectorTask.class);
@@ -44,6 +45,7 @@ public class MyFirstKafkaConnectorTask extends SourceTask {
         recordSchema = SchemaBuilder.struct()
             .field(STRING_COLUMN, Schema.STRING_SCHEMA).required()
             .field(NUMERIC_COLUMN, Schema.INT32_SCHEMA).required()
+            .field(BOOLEAN_COLUMN, Schema.OPTIONAL_BOOLEAN_SCHEMA)
             .build();
     }
 
@@ -67,6 +69,7 @@ public class MyFirstKafkaConnectorTask extends SourceTask {
         Struct struct = new Struct(schema);
         struct.put(STRING_COLUMN, randomString());
         struct.put(NUMERIC_COLUMN, random.nextInt(1000));
+        struct.put(BOOLEAN_COLUMN, random.nextBoolean());
         return struct;
     }
 

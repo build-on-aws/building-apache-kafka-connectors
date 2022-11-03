@@ -105,6 +105,7 @@ resource "aws_mskconnect_connector" "connector" {
     "connector.class" = "tutorial.buildon.aws.streaming.kafka.MyFirstKafkaConnector"
     "key.converter" = "org.apache.kafka.connect.converters.ByteArrayConverter"
     "value.converter" = "org.apache.kafka.connect.json.JsonConverter"
+    "value.converter.schemas.enable" = "false"
     "first.required.param" = "Kafka"
     "second.required.param" = "Connect"
     "tasks.max" = "1"
