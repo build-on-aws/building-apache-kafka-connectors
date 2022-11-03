@@ -162,8 +162,6 @@ more /etc/hosts
 
 Copy one of the endpoints mapped to the item `bootstrap-server`.
 
-You can check if it is producing data to Kafka topics by running the following commands:
-
 6. Check if the connector is writing data to the topics.
 
 ```bash
