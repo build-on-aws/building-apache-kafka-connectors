@@ -25,7 +25,7 @@ After installing these dependencies, execute the following command:
 mvn clean package
 ```
 
-A file named `target/my-first-kafka-connector-1.0.jar` will be created. This is your connector for Kafka Connect. 💡
+💡 A file named `target/my-first-kafka-connector-1.0.jar` will be created. This is your connector for Kafka Connect.
 
 ## 2️⃣ Starting the local environment
 
@@ -33,7 +33,7 @@ With the connector properly built, you need to have a local environment to test 
 
 - [Docker](https://www.docker.com/get-started)
 
-Start the container using the following command:
+Start the containers using the following command:
 
 ```bash
 docker compose up -d
@@ -99,6 +99,8 @@ curl -X DELETE http://localhost:8083/connectors/my-first-kafka-connector
 ```
 
 ## 6️⃣ Stopping the local environment
+
+Stop the containers using the following command:
 
 ```bash
 docker compose down
