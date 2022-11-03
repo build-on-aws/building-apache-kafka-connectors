@@ -12,7 +12,7 @@ This is the reason this project exists. This is a minimalistic repository that c
 * [Java 17+](https://openjdk.org/install)
 * [Maven 3.8.6+](https://maven.apache.org/download.cgi)
 
-## 1️⃣ Building the connector
+## ⚙️ Building the connector
 
 The first thing you need to do to use this connector is to build it. To do that, you need to install the following dependencies:
 
@@ -27,7 +27,7 @@ mvn clean package
 
 💡 A file named `target/my-first-kafka-connector-1.0.jar` will be created. This is your connector for Kafka Connect.
 
-## 2️⃣ Starting the local environment
+## ⬆️ Starting the local environment
 
 With the connector properly built, you need to have a local environment to test it. This project includes a Docker Compose file that can spin up container instances for Apache Kafka and Kafka Connect. To do that, you need to install the following dependencies:
 
@@ -41,7 +41,7 @@ docker compose up -d
 
 Wait until the containers `zookeeper`, `kafka`, `schema-registry`, and `connect` are started and healthy.
 
-## 3️⃣ Deploying and testing the connector
+## ⏯ Deploying and testing the connector
 
 Nothing is actually happening since the connector hasn't been deployed. Once you deploy the connector, it will start generating sample data from an artificial source and write this data off into three Kafka topics.
 
@@ -67,7 +67,7 @@ kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic source-3 --f
 
 All three topics should have sample data continuously generated for them.
 
-## 4️⃣ Debugging the connector
+## 🪲 Debugging the connector
 
 This is actually an optional step, but if you wish to debug the connector code to learn its behavior by watching the code executing line by line, you can do so by using remote debugging. The Kafka Connect container created in the Docker Compose file was changed to rebind the port 8888 to enable support for [JDWP](https://en.wikipedia.org/wiki/Java_Debug_Wire_Protocol). The instructions below assume that you are using [Visual Studio Code](https://code.visualstudio.com) for debugging.
 
@@ -90,7 +90,7 @@ To leverage this support, create a file named `.vscode/launch.json` with the fol
 
 Then, set one or multiple breakpoints throughout the code. Once this is done, you can launch a debugging session to attach the IDE to the container.
 
-## 5️⃣ Undeploy the connector
+## ⏹ Undeploy the connector
 
 Use the following command to undeploy the connector from Kafka Connect:
 
@@ -98,7 +98,7 @@ Use the following command to undeploy the connector from Kafka Connect:
 curl -X DELETE http://localhost:8083/connectors/my-first-kafka-connector
 ```
 
-## 6️⃣ Stopping the local environment
+## ⬇️ Stopping the local environment
 
 Stop the containers using the following command:
 
@@ -106,7 +106,7 @@ Stop the containers using the following command:
 docker compose down
 ```
 
-## 7️⃣ Deploying into AWS
+## 🌩 Deploying into AWS
 
 Once you have played with the connector locally, you can also deploy the connector in the cloud. This project contains the code necessary for you to automatically deploy this connector in AWS using Terraform. To deploy the connector in AWS, you will need:
 
@@ -136,7 +136,9 @@ terraform init
 terraform apply -auto-approve
 ```
 
-It may take several minutes for this deployment to finish, depending on your network speed, AWS region selected, and other factors. On average, you can expect something like 30 minutes or more. Please note that the Terraform code will create several resources in your AWS account. For this reason, be sure to execute the ninth step to destroy these resources, so you don't end up with an unexpected bill.
+It may take several minutes for this deployment to finish, depending on your network speed, AWS region selected, and other factors. On average, you can expect something like **45 minutes**.
+
+🚨 Please note that the Terraform code will create **35 resources** in your AWS account. It includes a VPC, subnets, security groups, IAM roles, CloudWatch log streams, an S3 bucket, a MSK cluster, an MSK Connect instance, and one EC2 instance. For this reason, be sure to execute the ninth step to destroy these resources, so you don't end up with an unexpected bill.
 
 Once the deployment completes, you should see the following output:
 
@@ -154,27 +156,29 @@ ssh ec2-user@<PUBLIC_IP> -i cert.pem
 
 💡 The following steps assume you are connected to the bastion host.
 
-5. List the endpoints stored in the `/etc/hosts` file.
+5. List the Kafka endpoints stored in the `/home/ec2-user/bootstrap-servers` file.
 
 ```bash
-more /etc/hosts
+more bootstrap-servers
 ```
 
-6. Copy one of the endpoints mapped to the item `bootstrap-server`.
+6. Copy one of the endpoints shown from the command above.
 
 7. Check if the connector is writing data to the topics.
 
 ```bash
-kafka-console-consumer.sh --bootstrap-server <ENDPOINT_COPIED_FROM_HOSTS_FILE> --topic source-1 --from-beginning
+kafka-console-consumer.sh --bootstrap-server <ENDPOINT_COPIED_FROM_STEP_SIX> --topic source-1 --from-beginning
 ```
 
 ```bash
-kafka-console-consumer.sh --bootstrap-server <ENDPOINT_COPIED_FROM_HOSTS_FILE> --topic source-2 --from-beginning
+kafka-console-consumer.sh --bootstrap-server <ENDPOINT_COPIED_FROM_STEP_SIX> --topic source-2 --from-beginning
 ```
 
 ```bash
-kafka-console-consumer.sh --bootstrap-server <ENDPOINT_COPIED_FROM_HOSTS_FILE> --topic source-3 --from-beginning
+kafka-console-consumer.sh --bootstrap-server <ENDPOINT_COPIED_FROM_STEP_SIX> --topic source-3 --from-beginning
 ```
+
+All three topics should have sample data continuously generated for them.
 
 8. Exit the connection with the bastion host.
 

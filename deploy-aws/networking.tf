@@ -1,5 +1,5 @@
 ###########################################
-################### VPC ###################
+################# General #################
 ###########################################
 
 resource "aws_vpc" "default" {
@@ -58,11 +58,6 @@ variable "private_cidr_blocks" {
     "10.0.1.0/24",
     "10.0.2.0/24",
     "10.0.3.0/24",
-    "10.0.4.0/24",
-    "10.0.5.0/24",
-    "10.0.6.0/24",
-    "10.0.7.0/24",
-    "10.0.8.0/24",
   ]
 }
 
@@ -77,9 +72,9 @@ resource "aws_subnet" "private_subnet" {
   }
 }
 
-resource "aws_subnet" "bastion_host" {
+resource "aws_subnet" "bastion_host_subnet" {
   vpc_id = aws_vpc.default.id
-  cidr_block = "10.0.9.0/24"
+  cidr_block = "10.0.4.0/24"
   map_public_ip_on_launch = true
   availability_zone = data.aws_availability_zones.available.names[0]
   tags = {
@@ -98,7 +93,15 @@ resource "aws_security_group" "kafka" {
     from_port = 0
     to_port = 9092
     protocol = "TCP"
-    cidr_blocks = ["10.0.0.0/16"]
+    cidr_blocks = ["10.0.1.0/24",
+                   "10.0.2.0/24",
+                   "10.0.3.0/24"]
+  }
+  ingress {
+    from_port = 0
+    to_port = 9092
+    protocol = "TCP"
+    cidr_blocks = ["10.0.4.0/24"]
   }
   egress {
     from_port = 0
