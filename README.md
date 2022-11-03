@@ -136,7 +136,7 @@ terraform init
 terraform apply -auto-approve
 ```
 
-It may take several minutes for this deployment to finish, depending on your network speed, AWS region selected, and other factors. On average, you can expect something like 30 minutes or more. Please note that the Terraform code will create several resources in your AWS account. For this reason, be sure to execute the tenth step to destroy these resources, so you don't end up with an unexpected bill.
+It may take several minutes for this deployment to finish, depending on your network speed, AWS region selected, and other factors. On average, you can expect something like 30 minutes or more. Please note that the Terraform code will create several resources in your AWS account. For this reason, be sure to execute the eighth step to destroy these resources, so you don't end up with an unexpected bill.
 
 Once the deployment completes, you should see the following output:
 
@@ -162,31 +162,29 @@ more /etc/hosts
 
 Copy one of the endpoints mapped to the item `bootstrap-server`.
 
-6. Consume the records from the topic `source-1`.
+You can check if it is producing data to Kafka topics by running the following commands:
+
+6. Check if the connector is writing data to the topics.
 
 ```bash
 kafka-console-consumer.sh --bootstrap-server <ENDPOINT_COPIED_FROM_HOSTS_FILE> --topic source-1 --from-beginning
 ```
 
-7. Consume the records from the topic `source-2`.
-
 ```bash
 kafka-console-consumer.sh --bootstrap-server <ENDPOINT_COPIED_FROM_HOSTS_FILE> --topic source-2 --from-beginning
 ```
-
-8. Consume the records from the topic `source-3`.
 
 ```bash
 kafka-console-consumer.sh --bootstrap-server <ENDPOINT_COPIED_FROM_HOSTS_FILE> --topic source-3 --from-beginning
 ```
 
-9. Exit the connection with the bastion host.
+7. Exit the connection with the bastion host.
 
 ```bash
 exit
 ```
 
-10. Destroy all the resources created by Terraform.
+8. Destroy all the resources created by Terraform.
 
 ```bash
 terraform destroy -auto-approve
