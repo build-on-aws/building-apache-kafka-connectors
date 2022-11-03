@@ -98,7 +98,13 @@ Use the following command to undeploy the connector from Kafka Connect:
 curl -X DELETE http://localhost:8083/connectors/my-first-kafka-connector
 ```
 
-## 6️⃣ Deploying into AWS
+## 6️⃣ Stopping the local environment
+
+```bash
+docker compose down
+```
+
+## 7️⃣ Deploying into AWS
 
 Once you have played with the connector locally, you can also deploy the connector in the cloud. This project contains the code necessary for you to automatically deploy this connector in AWS using Terraform. To deploy the connector in AWS, you will need:
 
@@ -128,7 +134,7 @@ terraform init
 terraform apply -auto-approve
 ```
 
-It may take several minutes for this deployment to finish, depending on your network speed, AWS region selected, and other factors. On average, you can expect something like 30 minutes or more. Please note that the Terraform code will create several resources in your AWS account. Be sure to execute the tenth step to destroy these resources, so you don't end up with an unexpected bill.
+It may take several minutes for this deployment to finish, depending on your network speed, AWS region selected, and other factors. On average, you can expect something like 30 minutes or more. Please note that the Terraform code will create several resources in your AWS account. For this reason, be sure to execute the tenth step to destroy these resources, so you don't end up with an unexpected bill.
 
 Once the deployment completes, you should see the following output:
 
@@ -144,7 +150,7 @@ execute_this_to_access_the_bastion_host = "ssh ec2-user@<PUBLIC_IP> -i cert.pem"
 ssh ec2-user@<PUBLIC_IP> -i cert.pem
 ```
 
-The following steps assume you are connected to the bastion host.
+💡 The following steps assume you are connected to the bastion host.
 
 5. List the endpoints stored in the `/etc/hosts` file.
 
