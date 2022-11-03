@@ -9,8 +9,11 @@ This is the reason this project exists. This is a minimalistic repository that c
 ### Requirements
 
 * [Docker](https://www.docker.com/get-started)
-* [Java 17+](https://openjdk.org/install)
+* [Java 11+](https://openjdk.org/install)
 * [Maven 3.8.6+](https://maven.apache.org/download.cgi)
+* [Terraform 1.3.0+](https://www.terraform.io/downloads)
+* [AWS Account](https://aws.amazon.com/resources/create-account)
+* [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
 ## ⚙️ Building the connector
 
@@ -69,9 +72,9 @@ All three topics should have sample data continuously generated for them.
 
 ## 🪲 Debugging the connector
 
-This is actually an optional step, but if you wish to debug the connector code to learn its behavior by watching the code executing line by line, you can do so by using remote debugging. The Kafka Connect container created in the Docker Compose file was changed to rebind the port 8888 to enable support for [JDWP](https://en.wikipedia.org/wiki/Java_Debug_Wire_Protocol). The instructions below assume that you are using [Visual Studio Code](https://code.visualstudio.com) for debugging.
+This is actually an optional step, but if you wish to debug the connector code to learn its behavior by watching the code executing line by line, you can do so by using remote debugging. The Kafka Connect container created in the Docker Compose file was changed to rebind the port **8888** to enable support for [JDWP](https://en.wikipedia.org/wiki/Java_Debug_Wire_Protocol). The instructions below assume that you are using [Visual Studio Code](https://code.visualstudio.com) for debugging. However, most IDEs for Java should provide support for JDWP. Please check their documentation manuals about how to attach their debugger to the remote process.
 
-To leverage this support, create a file named `.vscode/launch.json` with the following content:
+1. Create a file named `.vscode/launch.json` with the following content:
 
 ```json
 {
@@ -88,7 +91,9 @@ To leverage this support, create a file named `.vscode/launch.json` with the fol
 }
 ```
 
-Then, set one or multiple breakpoints throughout the code. Once this is done, you can launch a debugging session to attach the IDE to the container.
+2. Set one or multiple breakpoints throughout the code.
+3. Launch a new debugging session to attach to the container.
+4. Play with the connector to trigger the live debugging.
 
 ## ⏹ Undeploy the connector
 
