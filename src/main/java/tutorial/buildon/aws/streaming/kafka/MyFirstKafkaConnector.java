@@ -58,11 +58,11 @@ public class MyFirstKafkaConnector extends SourceConnector {
         }
         if (missingTopicDefinition) {
             throw new ConnectException(String.format(
-                "There is no definition of [XYZ] in the "
-                + "configuration. Either the property "
+                "A special circumstance has been found in the "
+                + "connector configuration. Either the property "
                 + "'%s' or '%s' must be set in the configuration.",
-                FIRST_NONREQUIRED_PARAM_CONFIG,
-                SECOND_NONREQUIRED_PARAM_CONFIG));
+                FIRST_REQUIRED_PARAM_CONFIG,
+                SECOND_REQUIRED_PARAM_CONFIG));
         }
         return config;
     }

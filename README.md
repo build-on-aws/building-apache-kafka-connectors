@@ -98,6 +98,92 @@ Use the following command to undeploy the connector from Kafka Connect:
 curl -X DELETE http://localhost:8083/connectors/my-first-kafka-connector
 ```
 
+## 6️⃣ Deploying into AWS
+
+Once you have played with the connector locally, you can also deploy the connector in the cloud. This project contains the code necessary for you to automatically deploy this connector in AWS using Terraform. To deploy the connector in AWS, you will need:
+
+- [Terraform 1.3.0+](https://www.terraform.io/downloads)
+- [AWS Account](https://aws.amazon.com/resources/create-account)
+- [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+
+You will also need to have the credentials from your AWS account properly configured in your system. You can do this by running the command `aws configure` using the AWS CLI. More information on how to do this [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html).
+
+Follow these steps to execute the deployment.
+
+1. Go to the `deploy-aws` folder.
+
+```bash
+cd deploy-aws
+```
+
+2. Initialize the Terraform plugins.
+
+```bash
+terraform init
+```
+
+3. Execute the deployment.
+
+```bash
+terraform apply -auto-approve
+```
+
+It may take several minutes for this deployment to finish, depending on your network speed, AWS region selected, and other factors. On average, you can expect something like 30 minutes or more. Please note that the Terraform code will create several resources in your AWS account. Be sure to execute the tenth step to destroy these resources, so you don't end up with an unexpected bill.
+
+Once the deployment completes, you should see the following output:
+
+```bash
+Outputs:
+
+execute_this_to_access_the_bastion_host = "ssh ec2-user@<PUBLIC_IP> -i cert.pem"
+```
+
+4. SSH into the bastion host.
+
+```bash
+ssh ec2-user@<PUBLIC_IP> -i cert.pem
+```
+
+The following steps assume you are connected to the bastion host.
+
+5. List the endpoints stored in the `/etc/hosts` file.
+
+```bash
+more /etc/hosts
+```
+
+Copy one of the endpoints mapped to the item `bootstrap-server`.
+
+6. Consume the records from the topic `source-1`.
+
+```bash
+kafka-console-consumer.sh --bootstrap-server <ENDPOINT_COPIED_FROM_HOSTS_FILE> --topic source-1 --from-beginning
+```
+
+7. Consume the records from the topic `source-2`.
+
+```bash
+kafka-console-consumer.sh --bootstrap-server <ENDPOINT_COPIED_FROM_HOSTS_FILE> --topic source-2 --from-beginning
+```
+
+8. Consume the records from the topic `source-3`.
+
+```bash
+kafka-console-consumer.sh --bootstrap-server <ENDPOINT_COPIED_FROM_HOSTS_FILE> --topic source-3 --from-beginning
+```
+
+9. Exit the connection with the bastion host.
+
+```bash
+exit
+```
+
+10. Destroy all the resources created by Terraform.
+
+```bash
+terraform destroy -auto-approve
+```
+
 ## Security
 
 See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+yum update -y
+yum install java-1.8.0 -y
+wget https://archive.apache.org/dist/kafka/2.2.1/kafka_2.12-2.2.1.tgz
+tar -xzf kafka_2.12-2.2.1.tgz
+
+cat > /etc/hosts <<- "EOF"
+${bootstrap_server} bootstrap-server
+EOF
+
+echo "PATH=$PATH:/bin:/usr/local/bin:/usr/bin:/kafka_2.12-2.2.1/bin" >> /home/ec2-user/.bash_profile
