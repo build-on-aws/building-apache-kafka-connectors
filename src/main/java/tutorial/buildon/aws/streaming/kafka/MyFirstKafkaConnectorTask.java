@@ -27,7 +27,7 @@ public class MyFirstKafkaConnectorTask extends SourceTask {
     private final Logger log = LoggerFactory.getLogger(MyFirstKafkaConnectorTask.class);
 
     private MyFirstKafkaConnectorConfig config;
-    private int monitorThreadTimeout;
+    private int taskSleepTimeout;
     private List<String> sources;
     private Schema recordSchema;
 
@@ -39,7 +39,7 @@ public class MyFirstKafkaConnectorTask extends SourceTask {
     @Override
     public void start(Map<String, String> properties) {
         config = new MyFirstKafkaConnectorConfig(properties);
-        monitorThreadTimeout = config.getInt(MONITOR_THREAD_TIMEOUT_CONFIG);
+        taskSleepTimeout = config.getInt(TASK_SLEEP_TIMEOUT_CONFIG);
         String sourcesStr = properties.get("sources");
         sources = Arrays.asList(sourcesStr.split(","));
         recordSchema = SchemaBuilder.struct()
@@ -51,7 +51,7 @@ public class MyFirstKafkaConnectorTask extends SourceTask {
 
     @Override
     public List<SourceRecord> poll() throws InterruptedException {
-        Thread.sleep(monitorThreadTimeout / 2);
+        Thread.sleep(taskSleepTimeout);
         List<SourceRecord> records = new ArrayList<>();
         for (String source : sources) {
             log.info("Polling data from the source '" + source + "'");

@@ -27,6 +27,10 @@ public class MyFirstKafkaConnectorConfig extends AbstractConfig {
     private static final String SECOND_NONREQUIRED_PARAM_DOC = "This is the 2nd non-required parameter";
     private static final String SECOND_NONREQUIRED_PARAM_DEFAULT = "bar";
 
+    public static final String TASK_SLEEP_TIMEOUT_CONFIG = "task.sleep.timeout";
+    private static final String TASK_SLEEP_TIMEOUT_DOC = "Sleep timeout used by tasks during each poll";
+    private static final int TASK_SLEEP_TIMEOUT_DEFAULT = 5000;
+
     public static final String MONITOR_THREAD_TIMEOUT_CONFIG = "monitor.thread.timeout";
     private static final String MONITOR_THREAD_TIMEOUT_DOC = "Timeout used by the monitoring thread";
     private static final int MONITOR_THREAD_TIMEOUT_DEFAULT = 10000;
@@ -62,6 +66,12 @@ public class MyFirstKafkaConnectorConfig extends AbstractConfig {
             SECOND_NONREQUIRED_PARAM_DEFAULT,
             Importance.HIGH,
             SECOND_NONREQUIRED_PARAM_DOC)
+        .define(
+            TASK_SLEEP_TIMEOUT_CONFIG,
+            Type.INT,
+            TASK_SLEEP_TIMEOUT_DEFAULT,
+            Importance.HIGH,
+            TASK_SLEEP_TIMEOUT_DOC)
         .define(
             MONITOR_THREAD_TIMEOUT_CONFIG,
             Type.INT,
