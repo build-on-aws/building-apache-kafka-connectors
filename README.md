@@ -42,7 +42,7 @@ Start the containers using the following command:
 docker compose up -d
 ```
 
-Wait until the containers `zookeeper`, `kafka`, and `connect` are started and healthy.
+Wait until the containers `kafka` and `connect` are started and healthy.
 
 ## ⏯ Deploying and testing the connector
 
