@@ -1,10 +1,10 @@
 ## Building Apache Kafka Connectors
 
-Building connectors for Apache Kafka is hard. Chances are that you just read the previous sentence, and you subconsciously nooded with your head. The reason this happens is that Kafka Connect, which is the runtime platform behind the executing connectors, is way over-engineered. There is a clear lack of a proper documentation that teaches how the development framework works, how it connects with the runtime, and which best practices you must follow.
+Building connectors for Apache Kafka is hard. Chances are that you just read the previous sentence, and you subconsciously nooded with your head. The reason this happens is that Kafka Connect, which is the runtime platform behind the executing connectors, uses a not so trivial software architecture. There is also a lack of a proper documentation that teaches how the development framework works, how it connects with the runtime, and which best practices you must follow.
 
 For situations like this, your best bet is to get hold of an existing code and try to do the same, hoping your own connector will be written the best way possible. By all means, this is an excellent strategy. But most of the time, it is hard to understand the code, as the connector you took as an example might have more code focused on solving the technical problem that the connector is aiming to solve than only the code part related to building custom connectors.
 
-This is the reason this project exists. This is a minimalistic repository that contains a source connector, whose focus is to show how the development framework from Kafka Connect works. From this repository, you can easily derive your own connector and write only the code that matter for your technical use case.
+This is the reason this project exists. This is a minimalistic repository that contains a source connector, whose focus is to show how the development framework from Kafka Connect works. From this repository, you can easily derive your own connector and write only the code that matter for your technical use case. This project also provides you with the resources to build, deploy, test, and debug the code on-premises, as well as deploying it in the cloud.
 
 ### Requirements
 
@@ -42,7 +42,7 @@ Start the containers using the following command:
 docker compose up -d
 ```
 
-Wait until the containers `zookeeper`, `kafka`, `schema-registry`, and `connect` are started and healthy.
+Wait until the containers `zookeeper`, `kafka`, and `connect` are started and healthy.
 
 ## ⏯ Deploying and testing the connector
 
