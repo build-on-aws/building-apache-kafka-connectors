@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import static tutorial.buildon.aws.streaming.kafka.MyFirstKafkaConnectorConfig.*;
+
 public class MyFirstConnectorTest {
 
     @Test
@@ -26,10 +28,11 @@ public class MyFirstConnectorTest {
 
     @Test
     public void checkSpecialCircumstance() {
+        final String value = "sameValue";
         assertThrows(ConnectException.class, () -> {
             Map<String, String> props = new HashMap<>();
-            props.put("first.nonrequired.param", "sameValue");
-            props.put("second.nonrequired.param", "sameValue");
+            props.put(FIRST_NONREQUIRED_PARAM_CONFIG, value);
+            props.put(SECOND_NONREQUIRED_PARAM_CONFIG, value);
             new MyFirstKafkaConnector().validate(props);
         });
     }
