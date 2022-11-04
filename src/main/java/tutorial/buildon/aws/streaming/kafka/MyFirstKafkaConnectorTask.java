@@ -55,12 +55,11 @@ public class MyFirstKafkaConnectorTask extends SourceTask {
         List<SourceRecord> records = new ArrayList<>();
         for (String source : sources) {
             log.info("Polling data from the source '" + source + "'");
-            Struct struct = createStruct(recordSchema);
             records.add(new SourceRecord(
                 Collections.singletonMap("source", source),
                 Collections.singletonMap("offset", 0),
                 source, null, null, null,
-                recordSchema, struct));
+                recordSchema, createStruct(recordSchema)));
         }
         return records;
     }
