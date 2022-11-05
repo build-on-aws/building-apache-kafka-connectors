@@ -8,21 +8,23 @@ This is the reason this project exists. This is a minimalistic repository that c
 
 ### Requirements
 
-* [Docker](https://www.docker.com/get-started)
 * [Java 11+](https://openjdk.org/install)
 * [Maven 3.8.6+](https://maven.apache.org/download.cgi)
+* [Docker](https://www.docker.com/get-started)
 * [Terraform 1.3.0+](https://www.terraform.io/downloads)
 * [AWS Account](https://aws.amazon.com/resources/create-account)
 * [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
 ## ⚙️ Building the connector
 
-The first thing you need to do to use this connector is to build it. To do that, you need to install the following dependencies:
+The first thing you need to do to use this connector is to build it.
+
+1. Install the following dependencies:
 
 - [Java 11+](https://openjdk.java.net)
 - [Apache Maven](https://maven.apache.org)
 
-After installing these dependencies, execute the following command:
+2. Build the Kafka Connect connector file.
 
 ```bash
 mvn clean package
@@ -32,11 +34,13 @@ mvn clean package
 
 ## ⬆️ Starting the local environment
 
-With the connector properly built, you need to have a local environment to test it. This project includes a Docker Compose file that can spin up container instances for Apache Kafka and Kafka Connect. To do that, you need to install the following dependencies:
+With the connector properly built, you need to have a local environment to test it. This project includes a Docker Compose file that can spin up container instances for Apache Kafka and Kafka Connect.
+
+1. Install the following dependencies:
 
 - [Docker](https://www.docker.com/get-started)
 
-Start the containers using the following command:
+2. Start the containers using Docker Compose.
 
 ```bash
 docker compose up -d
@@ -48,13 +52,13 @@ Wait until the containers `kafka` and `connect` are started and healthy.
 
 Nothing is actually happening since the connector hasn't been deployed. Once you deploy the connector, it will start generating sample data from an artificial source and write this data off into three Kafka topics.
 
-To deploy the connector, use the following command:
+1. Deploy the connector.
 
 ```bash
 curl -X POST -H "Content-Type:application/json" -d @examples/my-first-kafka-connector.json http://localhost:8083/connectors
 ```
 
-After deploying the connector, you can check if it is producing data to Kafka topics by running the following commands:
+2. Check if the connector is producing data to Kafka topics.
 
 ```bash
 kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic source-1 --from-beginning
@@ -68,7 +72,7 @@ kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic source-2 --f
 kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic source-3 --from-beginning
 ```
 
-All three topics should have sample data continuously generated for them.
+💡 All three topics should have sample data continuously generated for them.
 
 ## 🪲 Debugging the connector
 
@@ -105,7 +109,7 @@ curl -X DELETE http://localhost:8083/connectors/my-first-kafka-connector
 
 ## ⬇️ Stopping the local environment
 
-Stop the containers using the following command:
+1. Stop the containers using Docker Compose.
 
 ```bash
 docker compose down
@@ -164,7 +168,7 @@ ssh ec2-user@<PUBLIC_IP> -i cert.pem
 5. List the Kafka endpoints stored in the `/home/ec2-user/bootstrap-servers` file.
 
 ```bash
-more bootstrap-servers
+more /home/ec2-user/bootstrap-servers
 ```
 
 6. Copy one of the endpoints shown from the command above.
@@ -183,7 +187,7 @@ kafka-console-consumer.sh --bootstrap-server <ENDPOINT_COPIED_FROM_STEP_SIX> --t
 kafka-console-consumer.sh --bootstrap-server <ENDPOINT_COPIED_FROM_STEP_SIX> --topic source-3 --from-beginning
 ```
 
-All three topics should have sample data continuously generated for them.
+💡 All three topics should have sample data continuously generated for them.
 
 8. Exit the connection with the bastion host.
 
