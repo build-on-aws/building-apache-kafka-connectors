@@ -4,7 +4,7 @@ version: '3'
 services:
 
   kafka:
-    image: confluentinc/cp-kafka:7.3.0
+    image: confluentinc/cp-kafka:7.6.1
     hostname: kafka
     container_name: kafka
     ports:
@@ -33,7 +33,7 @@ services:
       retries: 10
 
   connect:
-    image: confluentinc/cp-kafka-connect-base:7.3.0
+    image: confluentinc/cp-kafka-connect-base:7.6.1
     hostname: connect
     container_name: connect
     depends_on:
